@@ -1,0 +1,19 @@
+.day-container, .week-container {
+  margin: 0 auto;
+  border: 5px solid black;
+}
+
+.day-container {
+  width: 50%;
+}
+
+.week-container {
+  width: 80%;
+}
+
+.view-buttons {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
