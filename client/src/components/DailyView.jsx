@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ReactAgenda , ReactAgendaCtrl , guid ,  Modal } from 'react-agenda';
-
-const colors= {
-  'color-1':"rgba(102, 195, 131 , 1)",
-  "color-2":"rgba(242, 177, 52, 1)",
-  "color-3":"rgba(235, 85, 59, 1)"
-}
+import { ReactAgenda, Modal, ReactAgendaCtrl } from 'react-agenda';
 
 const now = new Date();
 
-const DailyView = ({ userItems }) => {
+const DailyView = ({ userItems, colors, openModal, closeModal, showModal, addNewEvent, removeEvent }) => {
   const [items, setItems] = useState(userItems);
-  const [select, setSelected] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [wakeTime, setWakeTime] = useState([8, 22]);
-  const [showModal, setShowModal] = useState(false);
 
-  const handleCellSelection = (item) => {
-    console.log('handleCellSelection',item)
+
+  const handleCellSelection = (cell) => {
+    setSelected([cell]);
   }
 
   const handleItemEdit = (item) => {
@@ -29,23 +23,35 @@ const DailyView = ({ userItems }) => {
 
 
   return (
-    <ReactAgenda
-      minDate={now}
-      maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
-      disablePrevButton={false}
-      startDate={new Date()}
-      cellHeight={30}
-      items={items}
-      numberOfDays={1}
-      rowsPerHour={4}
-      itemColors={colors}
-      fixedHeader={true}
-      startAtTime={wakeTime[0]}
-      endAtTime={wakeTime[1]}
-      onItemEdit={handleItemEdit.bind(this)}
-      onCellSelect={handleCellSelection.bind(this)}
-      onRangeSelection={handleRangeSelection.bind(this)}
-    />
+    <div>
+      <ReactAgenda
+        minDate={now}
+        maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
+        disablePrevButton={false}
+        startDate={new Date()}
+        cellHeight={30}
+        items={items}
+        numberOfDays={1}
+        rowsPerHour={4}
+        itemColors={colors}
+        fixedHeader={true}
+        startAtTime={wakeTime[0]}
+        endAtTime={wakeTime[1]}
+        onItemEdit={handleItemEdit.bind(this)}
+        onCellSelect={handleCellSelection.bind(this)}
+        onRangeSelection={handleRangeSelection.bind(this)}
+        onItemRemove={() => removeEvent()}
+      />
+      {
+        showModal ? <Modal clickOutside={() => closeModal()} >
+          <div className="modal-content">
+            <ReactAgendaCtrl items={items} itemColors={colors} selectedCells={selected} Addnew={() => addNewEvent()}/>
+
+          </div>
+        </Modal> : ''
+      }
+    </div>
+
   )
 }
 
