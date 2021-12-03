@@ -1,0 +1,38 @@
+{
+  "name": "hr-lax47-mvp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "react-dev": "webpack --mode development -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phihtruong/hr-lax47-mvp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phihtruong/hr-lax47-mvp/issues"
+  },
+  "homepage": "https://github.com/phihtruong/hr-lax47-mvp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-agenda": "0.0.8",
+    "react-bootstrap": "^2.0.3",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.3.0",
+    "eslint-plugin-react": "^7.27.1",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}
