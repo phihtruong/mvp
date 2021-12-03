@@ -36,7 +36,7 @@ const DailyView = ({ userItems }) => {
       startDate={new Date()}
       cellHeight={30}
       items={items}
-      numberOfDays={1}
+      numberOfDays={7}
       rowsPerHour={4}
       itemColors={colors}
       fixedHeader={true}

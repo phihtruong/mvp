@@ -20,6 +20,8 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "react/prop-types": ["<enabled>", { "ignore": "<ignore>", "customValidators": "<customValidator>", "skipUndeclared": "<skipUndeclared>" }]
+
     }
 }
