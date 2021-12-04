@@ -38,6 +38,40 @@ let userItems = [
    }
 ];
 
+const remainingSlotCalc = (wakeTime) => {
+  let remainingSlots = [wakeTime[0]];
+  let lastSlot = remainingSlots[(remainingSlots.length - 1)];
+
+  while (lastSlot !== wakeTime[1] - 1) {
+    remainingSlots.push(lastSlot + 1);
+    lastSlot = remainingSlots[(remainingSlots.length - 1)]
+  }
+
+  let usedSlots = [];
+
+  userItems.forEach(event => {
+    let startTime = event.startDateTime.getHours();
+    let endTime = event.endDateTime.getHours();
+    if (startTime > wakeTime[0] && startTime < wakeTime[1]) {
+      usedSlots.push(startTime);
+      if (endTime - startTime > 1) {
+        for (var i = startTime + 1; i < endTime; i++) {
+          usedSlots.push(i);
+        }
+      }
+    }
+  });
+
+  remainingSlots = remainingSlots.filter(time => !usedSlots.includes(time));
+  return remainingSlots;
+};
+
+const agendaPopulater = (wakeTime, newEvents) => {
+  let remainingSlots = remainingSlotCalc(wakeTime);
+  console.log(remainingSlots);
+  console.log(newEvents);
+};
+
 const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [wakeTime, setWakeTime] = useState([8, 22]);
@@ -109,7 +143,6 @@ const App = () => {
       <DailyView
         userItems={userItems}
         colors={colors}
-        openModal={openModal}
         closeModal={closeModal}
         showModal={showModal}
         addNewEvent={addNewEvent}
@@ -117,6 +150,7 @@ const App = () => {
         openPlannerModal={openPlannerModal}
         closePlannerModal={closePlannerModal}
         showPlannerModal={showPlannerModal}
+        agendaPopulater={agendaPopulater}
       />
     </div>
 

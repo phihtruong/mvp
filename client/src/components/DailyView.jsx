@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { ReactAgenda, Modal, ReactAgendaCtrl } from 'react-agenda';
+import { ReactAgenda, Modal, ReactAgendaCtrl, guid } from 'react-agenda';
 import Rdate from 'react-datetime';
 import moment from 'moment';
 
 const now = new Date();
 
-const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wakeTime, closePlannerModal, showPlannerModal }) => {
+const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wakeTime, openPlannerModal, closePlannerModal, showPlannerModal, agendaPopulater }) => {
   const [items, setItems] = useState(userItems);
   const [selected, setSelected] = useState(now);
   const [newEvents, setNewEvents] = useState([]);
   const [eventName, setEventName] = useState('');
-  const [startDateTime, setStartDateTime] = useState(selected);
-  const [endDateTime, setEndDateTime] = useState(moment(startDateTime).add(30, 'Minutes')['_d']);
-  const [color, setColor] = useState([]);
+  const [color, setColor] = useState('color-1');
+  const [taskHours, setTaskHours] = useState(1);
 
 
   const handleCellSelection = (cell) => {
     setSelected([cell]);
-    setStartDateTime(new Date(cell));
-    setEndDateTime(moment(cell).add(30, 'Minutes')['_d'])
   }
 
   const handleItemEdit = (item) => {
@@ -29,8 +26,8 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
     setSelected([]);
   }
 
-  const handleDateChange = () => {
-
+  const handleHourChange = (e) => {
+    setTaskHours(e.target.value);
   }
 
   const handleNameChange = (e) => {
@@ -45,10 +42,41 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (newEvents.length < 1) {
+      return alert('Please add at least one event');
+    }
+
+    let newItems = items;
+    newItems = newItems.concat(newEvents);
+    setItems([...newItems]);
+
+    setNewEvents([]);
+    agendaPopulater(wakeTime, newEvents)
+    closePlannerModal();
+  }
+
+  const handleCreateEvent = (e) => {
+    e.preventDefault();
+    if (eventName.length < 1) {
+      return alert('Please enter an event name');
+    }
+
+    let list = newEvents;
+    list.push({
+      _id: guid(),
+      name: eventName,
+      startDateTime: now,
+      endDateTime: moment(now).add(1, 'hours')['_d'],
+      classes: color
+    });
+
+    setNewEvents([...list]);
+    setEventName('');
+    setTaskHours(1);
   }
 
   let itc = Object.keys(colors)
-  let colorsElement = itc.map((item, idx) => {
+  let colorElements = itc.map((item, idx) => {
     return <div style={{ background: colors[item] }}
       className="agendCtrls-radio-buttons" key={item}>
       <button
@@ -63,29 +91,37 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
   const plannerModal =
     <Modal clickOutside={() => closePlannerModal()} >
       <div className="agendCtrls-wrapper">
+        <ul className="events-list">
+          New Events:
+          {
+            newEvents.map((event, i) => {
+              return (
+                <li key={i}>
+                  {event.name}
+                </li>
+              )
+            })
+          }
+        </ul>
         <form onSubmit={handleSubmit}>
           <div className="agendCtrls-label-wrapper">
             <div className="agendCtrls-label-inline">
               <label>Event name</label>
-              <input type="text" autoFocus name="name" className="agendCtrls-event-input" value={eventName} onChange={handleNameChange} placeholder="Event Name" />
+              <input type="text" autoFocus name="name" className="agendCtrls-event-input" value={eventName} onChange={handleNameChange} placeholder="Event name" />
             </div>
             <div className="agendCtrls-label-inline">
               <label>Color</label>
               <div className="agendCtrls-radio-wrapper">
-                {colorsElement}</div>
+                {colorElements}</div>
             </div>
           </div>
-          <div className="agendCtrls-timePicker-wrapper">
-            <div className="agendCtrls-time-picker">
-              <label >Start Date</label>
-              <Rdate value={startDateTime} onChange={handleDateChange('startDateTime')} input={false} viewMode="time" ></Rdate>
+          <div className="agendCtrls-label-wrapper">
+            <div className="agendCtrls-label-inline">
+              <label>Hours</label>
+              <input type="text" autoFocus name="hours" className="agendCtrls-event-input" value={taskHours} onChange={handleHourChange} placeholder="Task length" />
             </div>
-            <div className="agendCtrls-time-picker">
-              <label >End Date</label>
-              <Rdate value={endDateTime} onChange={handleDateChange('endDateTime')} input={false} viewMode="time" ></Rdate>
-            </div>
+            <button onClick={handleCreateEvent}>+</button>
           </div>
-          <button onClick></button>
           <input type="submit" value="Populate" />
         </form>
       </div>
