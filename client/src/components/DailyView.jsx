@@ -3,10 +3,9 @@ import { ReactAgenda, Modal, ReactAgendaCtrl } from 'react-agenda';
 
 const now = new Date();
 
-const DailyView = ({ userItems, colors, openModal, closeModal, showModal, addNewEvent, removeEvent }) => {
+const DailyView = ({ userItems, colors, openModal, closeModal, showModal, addNewEvent, removeEvent, wakeTime }) => {
   const [items, setItems] = useState(userItems);
   const [selected, setSelected] = useState([]);
-  const [wakeTime, setWakeTime] = useState([8, 22]);
 
 
   const handleCellSelection = (cell) => {
@@ -37,9 +36,9 @@ const DailyView = ({ userItems, colors, openModal, closeModal, showModal, addNew
         fixedHeader={true}
         startAtTime={wakeTime[0]}
         endAtTime={wakeTime[1]}
-        onItemEdit={handleItemEdit.bind(this)}
-        onCellSelect={handleCellSelection.bind(this)}
-        onRangeSelection={handleRangeSelection.bind(this)}
+        onItemEdit={handleItemEdit}
+        onCellSelect={handleCellSelection}
+        // onRangeSelection={(handleRangeSelection.bind(this))}
         onItemRemove={() => removeEvent()}
       />
       {
