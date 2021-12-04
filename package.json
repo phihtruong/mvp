@@ -7,7 +7,7 @@
     "start": "nodemon server/index.js",
     "react-dev": "webpack --mode development -w",
     "build": "webpack",
-    "preinstall": "npx patch-package"
+    "prepare": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,8 @@
     "babel-loader": "^8.2.3",
     "eslint": "^8.3.0",
     "eslint-plugin-react": "^7.27.1",
+    "patch-package": "^6.4.7",
+    "postinstall-prepare": "^2.0.0",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1"
   }
