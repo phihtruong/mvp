@@ -44,6 +44,7 @@ const App = () => {
   const [showWakeModal, setWakeModal] = useState(false);
   const [wakeSelect, setWakeSelect] = useState(wakeTime[0]);
   const [sleepSelect, setSleepSelect] = useState(wakeTime[1]);
+  const [showPlannerModal, setPlannerModal] = useState(false);
 
   const handleViewChange = (e) => {
     setView(e.target.value);
@@ -73,6 +74,18 @@ const App = () => {
     setWakeModal(false);
   }
 
+  const openPlannerModal = () => {
+    setPlannerModal(true);
+  }
+
+  const closePlannerModal = (e) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    setPlannerModal(false);
+  }
+
   const addNewEvent = (items, newItems) => {
     closeModal();
   }
@@ -100,8 +113,10 @@ const App = () => {
         closeModal={closeModal}
         showModal={showModal}
         addNewEvent={addNewEvent}
-        removeEvent={() => {}}
         wakeTime={wakeTime}
+        openPlannerModal={openPlannerModal}
+        closePlannerModal={closePlannerModal}
+        showPlannerModal={showPlannerModal}
       />
     </div>
 
@@ -207,6 +222,9 @@ const App = () => {
         </button>
         <button onClick={openWakeModal}>
           Set Wake Time
+        </button>
+        <button onClick={openPlannerModal}>
+          Auto-planner
         </button>
       </div>
       {selectedView}
