@@ -1,6 +1,7 @@
 .day-container, .week-container {
   margin: 0 auto;
-  border: 5px solid black;
+  border: 2px solid grey;
+  background-color: #F0FBF6;
 }
 
 .day-container {
@@ -11,9 +12,47 @@
   width: 80%;
 }
 
-.view-buttons {
+.buttons {
   width: 50%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin: 0 auto;
+  background-color: #5e816d;
+}
+
+.button {
+  background-color: #5e816d;
+  text-align: center;
+  color: white;
+  border: 1px solid white;
+}
+
+.button:hover {
+  color: rgb(201, 221, 202);
+}
+
+.weekly-buttons {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  background-color: #5e816d;
+}
+
+body {
+  background-color: #E4FBEE;
+}
+
+header {
+  background-color: #5e816d;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+}
+
+.quote {
+  text-align: center;
+  font-style: italic;
+  font-weight: lighter;
 }

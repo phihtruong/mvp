@@ -121,7 +121,7 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
               <input type="text" autoFocus name="hours" className="agendCtrls-event-input" value={taskHours} onChange={handleHourChange} placeholder="Task length" />
             </div>
           </div>
-          <button onClick={handleCreateEvent}>+</button>
+          <button type="reset" onClick={handleCreateEvent}>+</button>
           <br/>
           <input type="submit" value="Populate" />
         </form>

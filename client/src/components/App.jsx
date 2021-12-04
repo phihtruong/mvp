@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import DailyView from './DailyView.jsx';
 import WeeklyView from './WeeklyView.jsx';
+import quotes from '../quotes.json';
 
 
 const colors = {
@@ -164,7 +165,7 @@ const App = () => {
   }
 
   const daily =
-    <div className='day-container'>
+    <div className='day-container daily-view'>
       <DailyView
         userItems={userItems}
         colors={colors}
@@ -180,7 +181,7 @@ const App = () => {
     </div>
 
   const weekly =
-    <div className='week-container'>
+    <div className='week-container weekly-view'>
       <WeeklyView
         userItems={userItems}
         colors={colors}
@@ -269,22 +270,27 @@ const App = () => {
             </Form>
         </Modal> : ''
       }
-      <div className='view-buttons'>
-        <button value='daily' onClick={(e) => handleViewChange(e)}>
-          Daily
-        </button>
-        <button value='weekly' onClick={(e) => handleViewChange(e)}>
-          Weekly
-        </button>
-        <button onClick={openModal}>
-          Add
-        </button>
-        <button onClick={openWakeModal}>
-          Set Wake Time
-        </button>
-        <button onClick={openPlannerModal}>
-          Auto-planner
-        </button>
+      <h4 className='quote'> {quotes[Math.floor(Math.random() * 41)]} </h4>
+      <div className={view === 'daily' ? 'buttons' : 'weekly-buttons'}>
+        <div className='view-buttons'>
+          <button className='button' type='button' value='daily' onClick={(e) => handleViewChange(e)}>
+            Daily
+          </button>
+          <button className='button' type='button' value='weekly' onClick={(e) => handleViewChange(e)}>
+            Weekly
+          </button>
+        </div>
+        <div className='planner-buttons'>
+          <button className='button' type='button' onClick={openModal}>
+            Add
+          </button>
+          <button className='button' type='button' onClick={openPlannerModal}>
+            Auto-plan
+          </button>
+          <button className='button' type='button' onClick={openWakeModal}>
+            Set Wake Time
+          </button>
+        </div>
       </div>
       {selectedView}
     </div>
