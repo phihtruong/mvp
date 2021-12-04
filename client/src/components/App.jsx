@@ -31,7 +31,7 @@ let userItems = [
   },
   {
     _id: guid(),
-     name: 'LeetCode',
+     name: 'Apply to jobs',
      startDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 16, 0),
      endDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0),
      classes: 'color-3'
@@ -39,11 +39,11 @@ let userItems = [
 ];
 
 const remainingSlotCalc = (wakeTime) => {
-  let remainingSlots = [wakeTime[0]];
+  let remainingSlots = [wakeTime[1] - 1];
   let lastSlot = remainingSlots[(remainingSlots.length - 1)];
 
-  while (lastSlot !== wakeTime[1] - 1) {
-    remainingSlots.push(lastSlot + 1);
+  while (lastSlot !== wakeTime[0]) {
+    remainingSlots.push(lastSlot - 1);
     lastSlot = remainingSlots[(remainingSlots.length - 1)]
   }
 
@@ -55,7 +55,7 @@ const remainingSlotCalc = (wakeTime) => {
     if (startTime > wakeTime[0] && startTime < wakeTime[1]) {
       usedSlots.push(startTime);
       if (endTime - startTime > 1) {
-        for (var i = startTime + 1; i < endTime; i++) {
+        for (let i = startTime + 1; i < endTime; i++) {
           usedSlots.push(i);
         }
       }
@@ -68,13 +68,38 @@ const remainingSlotCalc = (wakeTime) => {
 
 const agendaPopulater = (wakeTime, newEvents) => {
   let remainingSlots = remainingSlotCalc(wakeTime);
-  console.log(remainingSlots);
-  console.log(newEvents);
+  let newEventObjs = [];
+
+  newEvents.forEach(event => {
+    let startTime = remainingSlots.pop();
+    let endTime;
+
+    let startDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startTime, 0);
+    let endDateTime;
+    for (let i = 0; i < event.hours; i++) {
+      endTime = remainingSlots[remainingSlots.length - 1];
+      if (i === event.hours - 1) {
+        endDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endTime, 0);
+      } else {
+        remainingSlots.pop();
+      }
+    }
+
+    let newEventObj = {
+      _id: event._id,
+      name: event.name,
+      startDateTime,
+      endDateTime,
+      classes: event.classes
+    };
+    newEventObjs.push(newEventObj);
+  });
+  userItems = userItems.concat(newEventObjs);
 };
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
-  const [wakeTime, setWakeTime] = useState([8, 22]);
+  const [wakeTime, setWakeTime] = useState([9, 22]);
   const [showWakeModal, setWakeModal] = useState(false);
   const [wakeSelect, setWakeSelect] = useState(wakeTime[0]);
   const [sleepSelect, setSleepSelect] = useState(wakeTime[1]);

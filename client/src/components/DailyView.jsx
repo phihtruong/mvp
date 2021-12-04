@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ReactAgenda, Modal, ReactAgendaCtrl, guid } from 'react-agenda';
 import Rdate from 'react-datetime';
-import moment from 'moment';
 
 const now = new Date();
 
@@ -13,7 +12,9 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
   const [color, setColor] = useState('color-1');
   const [taskHours, setTaskHours] = useState(1);
 
-
+  useEffect(() => {
+    setItems(userItems);
+  }, [userItems]);
   const handleCellSelection = (cell) => {
     setSelected([cell]);
   }
@@ -46,12 +47,12 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
       return alert('Please add at least one event');
     }
 
-    let newItems = items;
-    newItems = newItems.concat(newEvents);
-    setItems([...newItems]);
+    let newItems = agendaPopulater(wakeTime, newEvents)
+    let oldItems = items;
+    newItems = oldItems.concat(newItems);
+    // setItems([...newItems]);
 
     setNewEvents([]);
-    agendaPopulater(wakeTime, newEvents)
     closePlannerModal();
   }
 
@@ -65,8 +66,7 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
     list.push({
       _id: guid(),
       name: eventName,
-      startDateTime: now,
-      endDateTime: moment(now).add(1, 'hours')['_d'],
+      hours: taskHours,
       classes: color
     });
 
@@ -120,8 +120,9 @@ const DailyView = ({ userItems, colors, closeModal, showModal, addNewEvent, wake
               <label>Hours</label>
               <input type="text" autoFocus name="hours" className="agendCtrls-event-input" value={taskHours} onChange={handleHourChange} placeholder="Task length" />
             </div>
-            <button onClick={handleCreateEvent}>+</button>
           </div>
+          <button onClick={handleCreateEvent}>+</button>
+          <br/>
           <input type="submit" value="Populate" />
         </form>
       </div>
