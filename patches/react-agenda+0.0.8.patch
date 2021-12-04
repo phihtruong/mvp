@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-agenda/src/reactAgendaItem.js b/node_modules/react-agenda/src/reactAgendaItem.js
+index c4efcae..718547c 100644
+--- a/node_modules/react-agenda/src/reactAgendaItem.js
++++ b/node_modules/react-agenda/src/reactAgendaItem.js
+@@ -111,7 +111,7 @@ if(elem){
+             <div className="agenda-item-description">
+               <section>{this.props.item.name}</section>
+             <small>
+-              , {duratL} - {duratE} , {duratH}
++              {duratL} - {duratE}, {duratH}
+             </small>
+           </div>
+ 

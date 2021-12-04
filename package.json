@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "react-dev": "webpack --mode development -w",
-    "build": "webpack"
+    "build": "webpack",
+    "preinstall": "npx patch-package"
   },
   "repository": {
     "type": "git",

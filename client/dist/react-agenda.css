@@ -467,7 +467,7 @@ padding: 8px;
 
 
 .agenda__row.\--hour-start>.agenda__cell {
-  color: white;
+  color: black;
 }
 
 .disable-select {
